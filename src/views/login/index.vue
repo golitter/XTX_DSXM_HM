@@ -13,7 +13,7 @@
                         <el-input type="password" :prefix-icon="Lock" v-model="loginForm.password" placeholder="请输入" show-password />
                     </el-form-item>
                     <el-form-item>
-                        <el-button class="login_btn" type="primary" size="default">登录</el-button>
+                        <el-button :loading="loading" class="login_btn" type="primary" @click="login" size="default">登录</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -22,14 +22,46 @@
 </template>
 <script setup lang="ts">
 import {User, Lock} from '@element-plus/icons-vue'
-import { reactive } from 'vue';
-
+import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import useUserStore from '@/store/modules/user'
+import { ElMessage, ElNotification } from 'element-plus';
+import { fa } from 'element-plus/es/locale';
 // 收集表单数据
 let loginForm = reactive({
     username: 'admin',
     password: '111111'
 });
 
+let loading = ref(false);
+
+// 获取路由
+let $router = useRouter();
+let userStore = useUserStore();
+// 登录按钮回调
+const login = async () => {
+    loading.value = true;
+    try {
+        // 保证登录成功
+        await userStore.userLogin(loginForm);
+        // 编程式导航跳转到展示数据首页
+        $router.push('/');
+        // 登录成功提示信息
+        ElNotification({
+            type:'success',
+            message:'登录成功',
+        })
+        // 登录成功加载状态消失
+        loading.value = false;
+    } catch(error) {
+        // 登录失败加载状态消失
+        loading.value = false;
+        ElNotification({
+            type:'error',
+            message:(error as Error).message,
+        })
+    }
+}
 </script>
 <style scoped lang="scss">
 .login_container {

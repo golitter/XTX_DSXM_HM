@@ -51,7 +51,7 @@ request.interceptors.response.use( (response) => {
         type: 'error',
         message
     });
-    return Promise.reject(error);
+    return Promise.reject(message);
 }
 );
 

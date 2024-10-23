@@ -15,12 +15,16 @@ import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 
 import router from '@/router/index'
+
+import store from '@/store/index'
 // 获取应用实例
 const app = createApp(App)
 // 使用 element-plus
 app.use(ElementPlus, {
     locale: zhCn // 配置element-plus的语言
 })
+// 使用大仓库
+app.use(store)
 
 app.component('svg-icon', SvgIcon)
 
