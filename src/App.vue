@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <h1>测试axios二次封装</h1>
+    <h1>路由</h1>
+    <router-view />
   </div>
 </template>
 <script setup lang="ts">
