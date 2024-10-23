@@ -21,5 +21,17 @@ app.use(ElementPlus, {
 import SvgIcon from '@/components/SvgIcon/index.vue'
 
 app.component('svg-icon', SvgIcon)
+
+// 测试代码：mock接口能否正常使用
+// import axios from 'axios'
+// // 登录接口
+// axios({
+//     url:"/api/user/login",
+//     method:"post",
+//     data:{
+//         username:"admin",
+//         password:"111111"
+//     }
+// })
 app.mount('#app')
 

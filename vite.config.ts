@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { viteMockServe } from 'vite-plugin-mock'
 import path from 'path';
 // 引入svg需要的插件
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-export default defineConfig({
+export default defineConfig(({ command }) => ({
 	plugins: [
 		vue(),
 		createSvgIconsPlugin({
@@ -12,6 +13,9 @@ export default defineConfig({
 			// Specify symbolId format
 			symbolId: 'icon-[dir]-[name]',
 		}),
+		viteMockServe({
+			enable: command === 'serve',
+		  }),
 	],
 	resolve: {
 		alias: {
@@ -26,4 +30,4 @@ export default defineConfig({
 		  },
 		},
 	  },
-});
+}));
