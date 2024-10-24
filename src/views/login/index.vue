@@ -3,13 +3,13 @@
         <el-row>
             <el-col :span="12" :xs="0">占位的位子</el-col>
             <el-col :span="12" :xs="24">
-                <el-form class="login_form">
+                <el-form class="login_form" :model="loginForm" :rules="rules" ref="loginForms">
                     <h1>Hello </h1>
                     <h2>欢迎回来</h2>
-                    <el-form-item>
+                    <el-form-item prop="username">
                         <el-input :prefix-icon="User" v-model="loginForm.username" placeholder="请输入" />
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item prop="password">
                         <el-input type="password" :prefix-icon="Lock" v-model="loginForm.password" placeholder="请输入" show-password />
                     </el-form-item>
                     <el-form-item>
@@ -36,12 +36,17 @@ let loginForm = reactive({
 
 let loading = ref(false);
 
+// 获取 el-form 实例
+let loginForms = ref(null);
 // 获取路由
 let $router = useRouter();
 let userStore = useUserStore();
 
 // 登录按钮回调
 const login = async () => {
+    // 保证全部表单校验通过再发送请求
+    await loginForms.value.validate();
+
     loading.value = true;
     try {
         // 保证登录成功
@@ -66,6 +71,16 @@ const login = async () => {
     }
 }
 
+// 定义表单校验需要配置的对象
+const rules = {
+    username: [
+        {required: true, message: '用户名不能为空！', trigger: 'blur'},
+        {required: true, min:5, max:20, message: '用户名长度在5-20个字符之间', trigger: 'change'}
+    ],
+    password: [
+        {required: true, min:6, max:15, message: '密码长度在6-15个字符之间', trigger: 'change'}
+    ]
+}
 
 </script>
 <style scoped lang="scss">
