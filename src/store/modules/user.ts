@@ -3,10 +3,12 @@
 import { defineStore } from "pinia";
 import { reqLogin } from "@/api/user";
 import { loginFormData, loginResponseData  } from "@/api/user/types";
+import type { UserStore } from "../types/type";
+import {SET_TOKEN} from "@/utils/token";
 // 创建用户小仓库
 let useUserStore = defineStore('User', {
     // 小仓库存储数据地方
-    state: () => {
+    state: (): UserStore => {
         return {
             token:'' // 用户唯一标识token
         }
@@ -21,11 +23,10 @@ let useUserStore = defineStore('User', {
             // 登录失败：201 -》 message
             if(result.code === 200) {
                 // pinia仓库存储一下token
-                this.token = result.data as string ;
+                this.token = result.data.token as string ;
                 console.log(this.token);
                 // 本地存储持久化一份
-                localStorage.setItem("TOKEN", result.data as string);
-
+                SET_TOKEN(this.token);
                 // 能保证当前async函数返回一个成功的promise
                 return 'ok';
             } else {
