@@ -71,14 +71,38 @@ const login = async () => {
     }
 }
 
+// 自定义校验规则函数
+const validatorUserName = (rule:any, value:any, callback:any) => {
+    // rule: 即为校验规则对象
+    // value: 即为当前输入框的值
+    // callback: 即为回调函数，用于返回校验结果
+        // 如果符合校验规则，调用 callback() 即可
+        // 如果不符合校验规则，调用 callback(new Error('校验失败提示信息')) 即可
+    if(value.length >= 5) {
+        callback();
+    } else {
+        callback(new Error('用户名长度不能小于5个字符'));
+    }
+
+}
+
+const validatorPassword = (rule:any, value:any, callback:any) => {
+    if(value.length >= 6) {
+        callback();
+    } else {
+        callback(new Error('密码长度不能小于6个字符'));
+    }
+}
 // 定义表单校验需要配置的对象
 const rules = {
     username: [
-        {required: true, message: '用户名不能为空！', trigger: 'blur'},
-        {required: true, min:5, max:20, message: '用户名长度在5-20个字符之间', trigger: 'change'}
+        // {required: true, message: '用户名不能为空！', trigger: 'blur'},
+        // {required: true, min:5, max:20, message: '用户名长度在5-20个字符之间', trigger: 'change'}
+        {trigger:'change', validator:validatorUserName}
     ],
     password: [
-        {required: true, min:6, max:15, message: '密码长度在6-15个字符之间', trigger: 'change'}
+        // {required: true, min:6, max:15, message: '密码长度在6-15个字符之间', trigger: 'change'}
+        {trigger:'change', validator:validatorPassword}
     ]
 }
 
