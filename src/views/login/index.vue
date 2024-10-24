@@ -27,6 +27,7 @@ import { useRouter } from 'vue-router';
 import useUserStore from '@/store/modules/user'
 import { ElMessage, ElNotification } from 'element-plus';
 import { fa } from 'element-plus/es/locale';
+import {getTime} from '@/utils/time'
 // 收集表单数据
 let loginForm = reactive({
     username: 'admin',
@@ -38,6 +39,7 @@ let loading = ref(false);
 // 获取路由
 let $router = useRouter();
 let userStore = useUserStore();
+
 // 登录按钮回调
 const login = async () => {
     loading.value = true;
@@ -49,7 +51,8 @@ const login = async () => {
         // 登录成功提示信息
         ElNotification({
             type:'success',
-            message:'登录成功',
+            message:'欢迎回来',
+            title:`HI, ${getTime()}好`
         })
         // 登录成功加载状态消失
         loading.value = false;
@@ -62,6 +65,8 @@ const login = async () => {
         })
     }
 }
+
+
 </script>
 <style scoped lang="scss">
 .login_container {
